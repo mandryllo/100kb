@@ -1,2 +1,8 @@
 @import 'tailwindcss';
 @import '@nuxt/ui';
+
+@theme static {
+  --app-max-width: 90rem;
+  --app-header-height: 2rem;
+  --app-footer-height: 2rem;
+}
