@@ -1,10 +1,17 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+/* globals defineNuxtConfig */
+
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
+  modules: ['@nuxt/eslint'],
   devtools: { enabled: true },
   app: {
     head: {
       title: 'Nuxt App Starter'
     }
+  },
+  compatibilityDate: '2024-11-01',
+  eslint: {
+    config: {
+      stylistic: true
+    }
   }
-})
+});
