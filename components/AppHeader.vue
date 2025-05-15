@@ -1,34 +1,14 @@
-<script setup>
-/* globals useColorMode */
-
-const colorMode = useColorMode();
-
-const isDark = computed({
-  get() {
-    return colorMode.value === 'dark';
-  },
-  set(_isDark) {
-    colorMode.preference = _isDark ? 'dark' : 'light';
-  }
-});
-</script>
-
 <template>
-  <header class="border-b border-neutral-800">
-    <div class="w-full h-full mx-auto max-w-(--app-max-width) flex justify-end">
-      <ClientOnly v-if="!colorMode?.forced">
-        <UButton
-          @click="isDark = !isDark"
-          icon="mdi:theme-light-dark"
-          size="sm"
-          color="neutral"
-          variant="ghost" />
-        <template #fallback>
-          <div class="size-8"></div>
+  <header class="border-b border-(--ui-border)">
+    <div class="w-full h-full mx-auto max-w-(--app-max-width) flex justify-between">
+      <UButton to="/" color="neutral" variant="ghost">
+        <template #leading>
+          <UIcon name="fluent:document-100-24-regular" size="24" />
         </template>
-      </ClientOnly>
+        100kb.space
+      </UButton>
       <UButton
-        to="https://github.com/mandryllo/nuxt-app-starter"
+        to="https://github.com/mandryllo/100kb.space"
         target="_blank"
         icon="mdi:github"
         size="sm"

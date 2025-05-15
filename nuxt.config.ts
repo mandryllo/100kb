@@ -5,10 +5,16 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
     head: {
-      title: 'Nuxt App Starter'
+      title: '100kb.space',
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/logo.svg' }
+      ]
     }
   },
   css: ['~/assets/main.css'],
+  ui: {
+    colorMode: false
+  },
   compatibilityDate: '2024-11-01',
   eslint: {
     config: {
