@@ -1,7 +1,7 @@
 /* globals defineNuxtConfig */
 
 export default defineNuxtConfig({
-  modules: ['@nuxt/eslint', '@nuxt/ui'],
+  modules: ['@nuxt/eslint', '@nuxt/ui', 'nuxt-lodash'],
   devtools: { enabled: true },
   app: {
     head: {
@@ -12,13 +12,14 @@ export default defineNuxtConfig({
     }
   },
   css: ['~/assets/main.css'],
-  ui: {
-    colorMode: false
-  },
   compatibilityDate: '2024-11-01',
   eslint: {
     config: {
       stylistic: true
     }
+  },
+  lodash: {
+    prefix: '_',
+    upperAfterPrefix: false
   }
 });
