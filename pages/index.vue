@@ -6,7 +6,7 @@ await feedStore.fetch();
 
 <template>
   <div>
-    <h1 class="text-center">100kb Feed</h1>
+    <h1 class="text-center">Feed</h1>
     <div v-for="(entries, key) in feedStore.itemsOnPage" :key="key">
       <h2>{{ key }}</h2>
       <UCard v-for="entry in entries" :key="entry.id" class="mb-4">
@@ -24,6 +24,7 @@ await feedStore.fetch();
       @update:page="feedStore.updatePage"
       :page="feedStore.page"
       :total="feedStore.total"
-      active-color="neutral" />
+      active-color="neutral"
+      class="flex justify-center" />
   </div>
 </template>

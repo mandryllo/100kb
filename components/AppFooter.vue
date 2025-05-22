@@ -4,9 +4,9 @@
       class="
       w-full h-full mx-auto max-w-(--app-max-width)
       flex justify-center items-center text-sm">
-      All Rights Reserved
-      <UIcon name="mdi:copyright" class="mx-2" />
       Tobogan
+      <UIcon name="mdi:slide" class="mx-2" />
+      2025
     </div>
   </footer>
 </template>

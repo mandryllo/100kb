@@ -33,7 +33,7 @@ const isDark = computed({
           </template>
         </ClientOnly>
         <UButton
-          to="https://github.com/mandryllo/100kb.space"
+          to="https://github.com/mandryllo/100kb"
           target="_blank"
           icon="mdi:github"
           size="sm"
