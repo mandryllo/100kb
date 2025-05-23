@@ -14,4 +14,18 @@ type MyFeedData = {
   [K: string]: MyFeedEntry[];
 };
 
-export type { MyFeedData, MyFeedEntry, PickedFeedData };
+type LinkVisit = {
+  link: string;
+  blog: string;
+  timestamp: string;
+};
+
+type UserActivity = {
+  [K: string]: number;
+};
+
+type UserBookmarks = {
+  [K: string]: boolean;
+};
+
+export type { MyFeedData, MyFeedEntry, UserActivity, LinkVisit, UserBookmarks };

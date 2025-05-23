@@ -6,26 +6,34 @@ export const useFeedStore = defineStore('feedStore', {
   state: () => ({
     feed: [] as MyFeedEntry[],
     page: 1,
-    total: 0,
-    itemsPerPage: ITEMS_PER_PAGE
+    itemsPerPage: ITEMS_PER_PAGE,
+    filterBookmarks: false
   }),
   actions: {
     async fetch() {
       const { data } = await useFetch<MyFeedEntry[]>('/api/feed');
-      if (data.value) {
-        this.feed = _orderBy(data.value, 'published', ['desc']);
-        this.total = data.value.length;
-      }
+      if (data.value) this.feed = _orderBy(data.value, 'published', ['desc']);
     },
     updatePage(page: number) {
       this.page = page;
+    },
+    setFilterBookmarks(filterBookmarks: boolean) {
+      this.filterBookmarks = filterBookmarks;
     }
   },
   getters: {
-    itemsOnPage: (state) => {
+    filteredFeed(state) {
+      if (!state.filterBookmarks) return state.feed;
+      const userStore = useUserStore();
+      return _filter(state.feed, it => it.feedLink && userStore.userBookmarks[it.feedLink]);
+    },
+    totalItems(): number {
+      return this.filteredFeed.length;
+    },
+    itemsOnPage(state): MyFeedData {
       const firstIndex = (state.page - 1) * state.itemsPerPage;
       const secondIndex = state.page * state.itemsPerPage;
-      const itemsOnPage = state.feed.slice(firstIndex, secondIndex);
+      const itemsOnPage = this.filteredFeed.slice(firstIndex, secondIndex);
       return _groupBy(itemsOnPage, 'date') as MyFeedData;
     }
   }
