@@ -20,6 +20,15 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/main.css'],
   compatibilityDate: '2024-11-01',
+  nitro: {
+    buildDir: '.nitro',
+    experimental: {
+      tasks: true
+    },
+    scheduledTasks: {
+      '0 0 * * *': ['feed']
+    }
+  },
   eslint: {
     config: {
       stylistic: true
