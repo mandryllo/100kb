@@ -21,5 +21,8 @@ export const useUserStore = defineStore('userStore', {
     storeUserBookmark(bookmark: string) {
       this.userBookmarks[bookmark] = !this.userBookmarks[bookmark];
     }
+  },
+  persist: {
+    storage: piniaPluginPersistedstate.localStorage()
   }
 });

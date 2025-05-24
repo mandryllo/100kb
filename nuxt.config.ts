@@ -1,7 +1,14 @@
 /* globals defineNuxtConfig */
 
 export default defineNuxtConfig({
-  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt', 'nuxt-lodash'],
+  modules: [
+    '@nuxt/eslint',
+    '@nuxt/ui',
+    '@pinia/nuxt',
+    'pinia-plugin-persistedstate/nuxt',
+    'nuxt-lodash'
+  ],
+  ssr: false,
   devtools: { enabled: true },
   app: {
     head: {
