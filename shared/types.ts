@@ -4,11 +4,13 @@ type PrefixKeys<T, P extends string> = {
   [K in keyof T as `${P}${Capitalize<string & K>}`]: T[K]
 };
 
+type RequiredAllButOne<T, K extends keyof T> = Required<Omit<T, K>> & Pick<T, K>;
+
 type PickedFeedData = Pick<FeedData, 'link' | 'title' | 'description' | 'published'>;
 
-type CustomFeedData = PrefixKeys<PickedFeedData, 'feed'>;
+type CustomFeedData = PrefixKeys<RequiredAllButOne<PickedFeedData, 'description'>, 'feed'>;
 
-type MyFeedEntry = FeedEntry & CustomFeedData & { date: string };
+type MyFeedEntry = RequiredAllButOne<FeedEntry, 'description'> & CustomFeedData & { date: string };
 
 type MyFeedData = {
   [K: string]: MyFeedEntry[];

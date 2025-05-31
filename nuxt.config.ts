@@ -9,6 +9,10 @@ export default defineNuxtConfig({
     'nuxt-lodash'
   ],
   ssr: false,
+  components: [{
+    path: '~/components',
+    pathPrefix: false
+  }],
   devtools: { enabled: true },
   app: {
     head: {
@@ -19,6 +23,11 @@ export default defineNuxtConfig({
     }
   },
   css: ['~/assets/main.css'],
+  ui: {
+    theme: {
+      colors: ['tertiary']
+    }
+  },
   compatibilityDate: '2024-11-01',
   nitro: {
     buildDir: '.nitro',

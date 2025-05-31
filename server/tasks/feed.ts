@@ -1,5 +1,5 @@
 import { extract } from '@extractus/feed-extractor';
-import BLOGS from '../utils/blogs';
+import BLOGS from '#shared/blogs';
 import type { MyFeedEntry } from '#shared/types';
 
 export default defineTask({
@@ -8,30 +8,39 @@ export default defineTask({
     description: 'Generate feed!'
   },
   async run() {
-    const feed = await Promise.allSettled(BLOGS.map(url => extract(url))).then((results) => {
-      return results.reduce((acc: MyFeedEntry[], result) => {
-        if (result.status === 'fulfilled') {
-          if (!result.value.entries) return acc;
-          result.value.entries.forEach((entry) => {
-            if (!entry.link || !entry.title || !entry.published) return acc;
-            const date = entry.published.split('T')[0];
-            const data: MyFeedEntry = {
-              ...entry,
-              date,
-              feedLink: result.value.link,
-              feedTitle: result.value.title,
-              feedDescription: result.value.description,
-              feedPublished: result.value.published
+    const feed = await Promise.allSettled(BLOGS.map(blog => extract(blog)))
+      .then((results) => {
+        return results.reduce((acc: MyFeedEntry[], result) => {
+          if (result.status === 'fulfilled') {
+            const { link, title, published, description, entries } = result.value;
+            if (!link || !title || !published || !entries) return acc;
+            const feedData = {
+              feedLink: link,
+              feedTitle: title,
+              feedDescription: description,
+              feedPublished: published
             };
-            acc.push(data);
-          });
-        }
-        else {
-          console.error(result.reason);
-        }
-        return acc;
-      }, []);
-    });
+            entries.forEach((entry) => {
+              const { id, link, title, description, published } = entry;
+              if (!id || !link || !title || !published) return acc;
+              const data: MyFeedEntry = {
+                id,
+                link,
+                title,
+                description,
+                published,
+                date: published.split('T')[0],
+                ...feedData
+              };
+              acc.push(data);
+            });
+          }
+          else {
+            console.error(result.reason);
+          }
+          return acc;
+        }, []);
+      });
     await useStorage().setItem('feed:list', feed);
     return { result: 'success' };
   }

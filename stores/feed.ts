@@ -25,7 +25,9 @@ export const useFeedStore = defineStore('feedStore', {
     filteredFeed(state) {
       if (!state.filterBookmarks) return state.feed;
       const userStore = useUserStore();
-      return _filter(state.feed, it => it.feedLink && userStore.userBookmarks[it.feedLink]);
+      return _filter(state.feed, (it: MyFeedEntry) => {
+        return it.feedLink && userStore.userBookmarks[it.feedLink];
+      });
     },
     totalItems(): number {
       return this.filteredFeed.length;
