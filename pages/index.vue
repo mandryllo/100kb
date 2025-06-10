@@ -7,11 +7,18 @@ await feedStore.fetch();
 <template>
   <div>
     <h1 class="text-center">Feed</h1>
-    <!-- <USwitch
+    <USwitch
       @update:model-value="feedStore.setFilterBookmarks"
       :model-value="feedStore.filterBookmarks"
       color="neutral"
-      label="Filter Bookmarks" /> -->
+      label="Filter Bookmarked Blogs"
+      class="mb-2" />
+    <USwitch
+      @update:model-value="feedStore.setFilterFavorites"
+      :model-value="feedStore.filterFavorites"
+      color="neutral"
+      label="Filter Favorite Posts"
+      class="mb-2" />
     <div v-for="(entries, key) in feedStore.itemsOnPage" :key="key">
       <h2>{{ key }}</h2>
       <PostCard v-for="entry in entries" :key="entry.id" :post="entry" />

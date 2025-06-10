@@ -13,9 +13,9 @@ export const useUserStore = defineStore('userStore', {
         blog,
         timestamp: (new Date()).toISOString()
       });
-      if (!this.userActivity[link]) this.userActivity[link] = 0;
+      if (link && !this.userActivity[link]) this.userActivity[link] = 0;
       if (!this.userActivity[blog]) this.userActivity[blog] = 0;
-      this.userActivity[link]++;
+      if (link) this.userActivity[link]++;
       this.userActivity[blog]++;
     },
     storeUserBookmark(bookmark: string) {

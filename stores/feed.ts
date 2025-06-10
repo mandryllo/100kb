@@ -7,7 +7,8 @@ export const useFeedStore = defineStore('feedStore', {
     feed: [] as MyFeedEntry[],
     page: 1,
     itemsPerPage: ITEMS_PER_PAGE,
-    filterBookmarks: false
+    filterBookmarks: false,
+    filterFavorites: false
   }),
   actions: {
     async fetch() {
@@ -19,14 +20,20 @@ export const useFeedStore = defineStore('feedStore', {
     },
     setFilterBookmarks(filterBookmarks: boolean) {
       this.filterBookmarks = filterBookmarks;
+    },
+    setFilterFavorites(filterFavorites: boolean) {
+      this.filterFavorites = filterFavorites;
     }
   },
   getters: {
     filteredFeed(state) {
-      if (!state.filterBookmarks) return state.feed;
+      if (!state.filterBookmarks && !state.filterFavorites) return state.feed;
       const userStore = useUserStore();
       return _filter(state.feed, (it: MyFeedEntry) => {
-        return it.feedLink && userStore.userBookmarks[it.feedLink];
+        const cond = [];
+        if (state.filterBookmarks) cond.push(it.feedLink);
+        if (state.filterFavorites) cond.push(it.link);
+        return cond.every(it => userStore.userBookmarks[it]);
       });
     },
     totalItems(): number {
