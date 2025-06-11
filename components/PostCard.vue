@@ -5,6 +5,8 @@ const props = defineProps<{
   post: MyFeedEntry;
 }>();
 
+const emit = defineEmits(['updated']);
+
 const userStore = useUserStore();
 
 function onReadMoreClick() {
@@ -12,7 +14,8 @@ function onReadMoreClick() {
 }
 
 function savePost() {
-  userStore.storeUserBookmark(props.post.link);
+  userStore.storeUserFavorite(props.post.link);
+  emit('updated');
 }
 
 function onReadBlogClick() {
@@ -21,10 +24,11 @@ function onReadBlogClick() {
 
 function bookmarkBlog() {
   userStore.storeUserBookmark(props.post.feedLink);
+  emit('updated');
 }
 
 const isPostSaved = computed(() => {
-  return !!userStore.userBookmarks[props.post.link];
+  return !!userStore.userFavorites[props.post.link];
 });
 
 const isBlogBookmarked = computed(() => {

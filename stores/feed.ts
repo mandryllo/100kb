@@ -1,10 +1,11 @@
-import type { MyFeedData, MyFeedEntry } from '#shared/types';
+import type { MyFeedData, MyFeedEntry, FeedListResults } from '#shared/types';
 
 const ITEMS_PER_PAGE = 10;
 
 export const useFeedStore = defineStore('feedStore', {
   state: () => ({
     feed: [] as MyFeedEntry[],
+    total: 0,
     page: 1,
     itemsPerPage: ITEMS_PER_PAGE,
     filterBookmarks: false,
@@ -12,8 +13,13 @@ export const useFeedStore = defineStore('feedStore', {
   }),
   actions: {
     async fetch() {
-      const { data } = await useFetch<MyFeedEntry[]>('/api/feed');
-      if (data.value) this.feed = _orderBy(data.value, 'published', ['desc']);
+      const { data } = await useFetch<FeedListResults>(
+        '/api/feed',
+        { query: { page: this.page } }
+      );
+      if (!data.value) return;
+      this.feed = data.value.items;
+      this.total = data.value.total;
     },
     updatePage(page: number) {
       this.page = page;

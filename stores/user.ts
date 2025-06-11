@@ -4,7 +4,8 @@ export const useUserStore = defineStore('userStore', {
   state: () => ({
     linkVisits: [] as LinkVisit[],
     userActivity: {} as UserActivity,
-    userBookmarks: {} as UserBookmarks
+    userBookmarks: {} as UserBookmarks,
+    userFavorites: {} as UserBookmarks
   }),
   actions: {
     storeLinkVisit({ link, blog }: Omit<LinkVisit, 'timestamp'>) {
@@ -20,6 +21,9 @@ export const useUserStore = defineStore('userStore', {
     },
     storeUserBookmark(bookmark: string) {
       this.userBookmarks[bookmark] = !this.userBookmarks[bookmark];
+    },
+    storeUserFavorite(bookmark: string) {
+      this.userFavorites[bookmark] = !this.userFavorites[bookmark];
     }
   },
   persist: {

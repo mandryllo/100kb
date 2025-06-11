@@ -30,4 +30,25 @@ type UserBookmarks = {
   [K: string]: boolean;
 };
 
-export type { MyFeedData, MyFeedEntry, UserActivity, LinkVisit, UserBookmarks };
+type PaginationQuery = {
+  page: number;
+  filterIds?: string;
+  ids?: string[];
+  filterFeedIds?: string;
+  feedIds?: string[];
+};
+
+type FeedListResults = {
+  items: MyFeedEntry[];
+  total: number;
+};
+
+export type {
+  PaginationQuery,
+  FeedListResults,
+  MyFeedData,
+  MyFeedEntry,
+  UserActivity,
+  LinkVisit,
+  UserBookmarks
+};
