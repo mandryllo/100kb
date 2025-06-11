@@ -1,5 +1,25 @@
 <script setup lang="ts">
+import type { NavigationMenuItem } from '@nuxt/ui';
+
 const colorMode = useColorMode();
+
+const items = ref<NavigationMenuItem[]>([
+  {
+    label: 'Feed',
+    icon: 'material-symbols:dynamic-feed',
+    to: '/'
+  },
+  {
+    label: 'About',
+    icon: 'material-symbols:chat-info-outline',
+    to: '/about'
+  },
+  {
+    label: 'Activity',
+    icon: 'material-symbols:browse-activity-outline',
+    to: '/activity'
+  }
+]);
 
 const isDark = computed({
   get() {
@@ -20,6 +40,10 @@ const isDark = computed({
         </template>
         100kb.space
       </UButton>
+      <UNavigationMenu
+        color="neutral"
+        variant="link"
+        :items="items" />
       <div>
         <ClientOnly v-if="!colorMode?.forced">
           <UButton

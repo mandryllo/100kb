@@ -2,6 +2,7 @@ import type { LinkVisit, UserActivity, UserBookmarks } from '#shared/types';
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
+    disabled: false,
     linkVisits: [] as LinkVisit[],
     userActivity: {} as UserActivity,
     userBookmarks: {} as UserBookmarks,
@@ -24,6 +25,24 @@ export const useUserStore = defineStore('userStore', {
     },
     storeUserFavorite(bookmark: string) {
       this.userFavorites[bookmark] = !this.userFavorites[bookmark];
+    },
+    enable() {
+      this.disabled = false;
+    },
+    disable() {
+      this.disabled = true;
+      this.reset();
+    },
+    reset() {
+      this.linkVisits = [];
+      this.userActivity = {};
+      this.userBookmarks = {};
+      this.userFavorites = {};
+    }
+  },
+  getters: {
+    orderedLinkVisits(state) {
+      return _orderBy(state.linkVisits, 'timestamp', ['desc']);
     }
   },
   persist: {

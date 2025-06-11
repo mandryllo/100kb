@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import type { MyFeedData, MyFeedEntry, FeedListResults, PaginationQuery } from '#shared/types';
+import type {
+  MyFeedData,
+  MyFeedEntry,
+  FeedListResults,
+  PaginationQuery
+} from '#shared/types';
 
 const page = ref(1);
 const feed = ref<MyFeedEntry[]>([]);
@@ -54,18 +59,20 @@ onMounted(() => {
 <template>
   <div>
     <h1 class="text-center">Feed</h1>
-    <USwitch
-      @update:model-value="setFilterBookmarks"
-      :model-value="filterBookmarks"
-      color="neutral"
-      label="Filter Bookmarked Blogs"
-      class="mb-2" />
-    <USwitch
-      @update:model-value="setFilterFavorites"
-      :model-value="filterFavorites"
-      color="neutral"
-      label="Filter Favorite Posts"
-      class="mb-2" />
+    <template v-if="!userStore.disabled">
+      <USwitch
+        @update:model-value="setFilterBookmarks"
+        :model-value="filterBookmarks"
+        color="neutral"
+        label="Filter Bookmarked Blogs"
+        class="mb-2" />
+      <USwitch
+        @update:model-value="setFilterFavorites"
+        :model-value="filterFavorites"
+        color="neutral"
+        label="Filter Favorite Posts"
+        class="mb-2" />
+    </template>
     <div v-for="(entries, key) in groupedFeed" :key="key">
       <h2>{{ key }}</h2>
       <PostCard

@@ -1,4 +1,5 @@
 import filter from 'lodash/filter';
+import orderBy from 'lodash/orderBy';
 import type { MyFeedEntry, PaginationQuery } from '#shared/types';
 
 const ITEMS_PER_PAGE = 10;
@@ -15,6 +16,7 @@ export default defineEventHandler(async (event) => {
   if (filterFeedIds === 'true' && feedIds && feedIds.length) {
     feed = filter(feed, (it: MyFeedEntry) => feedIds.includes(it.feedLink));
   }
+  feed = orderBy(feed, 'published', ['desc']);
   const firstIndex = (page - 1) * ITEMS_PER_PAGE;
   const secondIndex = page * ITEMS_PER_PAGE;
   return { items: feed.slice(firstIndex, secondIndex), total: feed.length };

@@ -1,7 +1,7 @@
 <template>
   <div>
     <AppHeader />
-    <main class="w-full mx-auto max-w-(--app-max-width) p-4">
+    <main class="w-full mx-auto max-w-(--app-max-width) py-8 px-4">
       <slot></slot>
     </main>
     <AppFooter />

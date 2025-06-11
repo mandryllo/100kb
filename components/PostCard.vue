@@ -49,7 +49,9 @@ const isPostVisited = computed(() => {
     <template #header>
       <h3 class="flex justify-between items-center">
         {{ post.title }}
-        <UTooltip :text="!isPostSaved ? 'Favorite post' : 'Unfavorite post'">
+        <UTooltip
+          v-if="!userStore.disabled"
+          :text="!isPostSaved ? 'Favorite post' : 'Unfavorite post'">
           <UButton
             @click="savePost"
             :icon="!isPostSaved ? 'material-symbols:favorite-outline' : 'material-symbols:favorite'"
@@ -107,7 +109,9 @@ const isPostVisited = computed(() => {
               variant="subtle"
               size="xs" />
           </UTooltip>
-          <UTooltip :text="!isBlogBookmarked ? 'Bookmark blog' : 'Unbookmark blog'">
+          <UTooltip
+            v-if="!userStore.disabled"
+            :text="!isBlogBookmarked ? 'Bookmark blog' : 'Unbookmark blog'">
             <UButton
               @click="bookmarkBlog"
               icon="material-symbols:bookmark-heart-outline"
