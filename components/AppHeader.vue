@@ -1,34 +1,19 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui';
 
-const colorMode = useColorMode();
-
-const items = ref<NavigationMenuItem[]>([
-  {
-    label: 'Feed',
-    icon: 'material-symbols:dynamic-feed',
-    to: '/'
-  },
-  {
-    label: 'About',
-    icon: 'material-symbols:chat-info-outline',
-    to: '/about'
-  },
-  {
-    label: 'Activity',
-    icon: 'material-symbols:browse-activity-outline',
-    to: '/activity'
-  }
-]);
-
-const isDark = computed({
-  get() {
-    return colorMode.value === 'dark';
-  },
-  set(_isDark) {
-    colorMode.preference = _isDark ? 'dark' : 'light';
-  }
-});
+const items = ref<NavigationMenuItem[]>([{
+  label: 'Feed',
+  icon: 'material-symbols:dynamic-feed',
+  to: '/'
+}, {
+  label: 'About',
+  icon: 'material-symbols:chat-info-outline',
+  to: '/about'
+}, {
+  label: 'Activity',
+  icon: 'material-symbols:browse-activity-outline',
+  to: '/activity'
+}]);
 </script>
 
 <template>
@@ -45,25 +30,14 @@ const isDark = computed({
         variant="link"
         :items="items" />
       <div>
-        <ClientOnly v-if="!colorMode?.forced">
-          <UButton
-            @click="isDark = !isDark"
-            icon="mdi:theme-light-dark"
-            size="sm"
-            color="neutral"
-            variant="ghost" />
-          <template #fallback>
-            <div class="size-8"></div>
-          </template>
-        </ClientOnly>
+        <ThemeToggle />
         <UButton
           to="https://github.com/mandryllo/100kb"
           target="_blank"
           icon="mdi:github"
           size="sm"
           color="neutral"
-          variant="ghost"
-          aria-label="GitHub" />
+          variant="ghost" />
       </div>
     </div>
   </header>
