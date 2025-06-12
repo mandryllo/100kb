@@ -39,17 +39,17 @@ export function useFeed() {
 
   function setFilterBookmarks(filter: boolean) {
     filterBookmarks.value = filter;
-    fetch();
+    updatePage(1);
   }
 
   function setFilterFavorites(filter: boolean) {
     filterFavorites.value = filter;
-    fetch();
+    updatePage(1);
   }
 
   function onPostUpdate(type: 'favorite' | 'bookmark') {
-    if (type === 'bookmark' && filterBookmarks.value) fetch();
-    if (type === 'favorite' && filterFavorites.value) fetch();
+    if (type === 'bookmark' && filterBookmarks.value) updatePage(1);
+    if (type === 'favorite' && filterFavorites.value) updatePage(1);
   }
 
   const groupedFeed = computed<MyFeedData>(() => {
