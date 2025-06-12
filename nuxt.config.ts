@@ -6,7 +6,9 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
-    'nuxt-lodash'
+    'nuxt-lodash',
+    'nuxt-security',
+    '@nuxtjs/seo'
   ],
   ssr: false,
   components: [{
