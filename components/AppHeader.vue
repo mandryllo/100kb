@@ -1,19 +1,5 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui';
-
-const items = ref<NavigationMenuItem[]>([{
-  label: 'Feed',
-  icon: 'material-symbols:dynamic-feed',
-  to: '/'
-}, {
-  label: 'About',
-  icon: 'material-symbols:chat-info-outline',
-  to: '/about'
-}, {
-  label: 'Activity',
-  icon: 'material-symbols:browse-activity-outline',
-  to: '/activity'
-}]);
+const { toggleIsOpened, isOpened } = useNavMenu();
 </script>
 
 <template>
@@ -25,10 +11,7 @@ const items = ref<NavigationMenuItem[]>([{
         </template>
         100kb.space
       </UButton>
-      <UNavigationMenu
-        color="neutral"
-        variant="link"
-        :items="items" />
+      <NavigationMenu class="hidden sm:flex" />
       <div>
         <ThemeToggle />
         <UButton
@@ -38,6 +21,13 @@ const items = ref<NavigationMenuItem[]>([{
           size="sm"
           color="neutral"
           variant="ghost" />
+        <UButton
+          @click="toggleIsOpened"
+          :icon="isOpened ? 'mdi:close' : 'mdi:menu'"
+          size="sm"
+          color="neutral"
+          variant="ghost"
+          class="inline-flex sm:hidden cursor-pointer" />
       </div>
     </div>
   </header>

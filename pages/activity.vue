@@ -51,7 +51,7 @@ function onDisableConfirm() {
           Enable User Activity
         </UButton>
       </div>
-      <ul class="list-disc">
+      <ul class="list-disc mx-4">
         <li v-for="it in userStore.orderedLinkVisits" :key="it.link">
           Visited
           <ULink :to="it.link || it.blog" external target="_blank">

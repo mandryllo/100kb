@@ -1,7 +1,15 @@
+<script setup lang="ts">
+const { isOpened } = useNavMenu();
+</script>
+
 <template>
   <div>
     <AppHeader />
-    <main class="w-full mx-auto max-w-(--app-max-width) py-8 px-4">
+    <div v-if="isOpened" class="block sm:hidden">
+      <NavigationMenu orientation="vertical" />
+      <USeparator />
+    </div>
+    <main class="w-full mx-auto max-w-(--app-max-width) py-4 md:py-8 px-4">
       <slot></slot>
     </main>
     <AppFooter />

@@ -17,5 +17,6 @@ const isDark = computed({
     :icon="isDark ? 'lucide:sun' : 'lucide:moon'"
     size="sm"
     color="neutral"
-    variant="ghost" />
+    variant="ghost"
+    class="cursor-pointer" />
 </template>

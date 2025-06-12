@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mx-4">
     <h1 class="text-center">About</h1>
     <div class="flex justify-center">
       <ol class="list-decimal">

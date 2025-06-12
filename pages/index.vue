@@ -17,20 +17,21 @@ const {
 <template>
   <div>
     <h1 class="text-center">Feed</h1>
-    <template v-if="!userStore.disabled">
+    <div
+      v-if="!userStore.disabled"
+      class="flex flex-col md:flex-row justify-center mb-8">
       <USwitch
         @update:model-value="setFilterBookmarks"
         :model-value="filterBookmarks"
         color="neutral"
         label="Filter Bookmarked Blogs"
-        class="mb-2" />
+        class="mb-4 md:mb-0 mr-0 md:mr-8" />
       <USwitch
         @update:model-value="setFilterFavorites"
         :model-value="filterFavorites"
         color="neutral"
-        label="Filter Favorite Posts"
-        class="mb-2" />
-    </template>
+        label="Filter Favorite Posts" />
+    </div>
     <div v-for="(entries, key) in groupedFeed" :key="key">
       <h2>{{ key }}</h2>
       <PostCard
