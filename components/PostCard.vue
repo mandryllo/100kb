@@ -15,7 +15,7 @@ function onReadMoreClick() {
 
 function savePost() {
   userStore.storeUserFavorite(props.post.link);
-  emit('updated');
+  emit('updated', 'favorite');
 }
 
 function onReadBlogClick() {
@@ -24,7 +24,7 @@ function onReadBlogClick() {
 
 function bookmarkBlog() {
   userStore.storeUserBookmark(props.post.feedLink);
-  emit('updated');
+  emit('updated', 'bookmark');
 }
 
 const isPostSaved = computed(() => {

@@ -9,12 +9,12 @@ export default defineEventHandler(async (event) => {
   let feed = await useStorage().getItem('feed:list') as MyFeedEntry[];
   if (!feed) return [];
 
-  const { page, ids, feedIds, filterIds, filterFeedIds } = query;
-  if (filterIds === 'true' && ids && ids.length) {
-    feed = filter(feed, (it: MyFeedEntry) => ids.includes(it.id));
-  }
-  if (filterFeedIds === 'true' && feedIds && feedIds.length) {
+  const { page, ids = [], feedIds = [], filterIds, filterFeedIds } = query;
+  if (filterFeedIds === 'true') {
     feed = filter(feed, (it: MyFeedEntry) => feedIds.includes(it.feedLink));
+  }
+  if (filterIds === 'true') {
+    feed = filter(feed, (it: MyFeedEntry) => ids.includes(it.id));
   }
   feed = orderBy(feed, 'published', ['desc']);
   const firstIndex = (page - 1) * ITEMS_PER_PAGE;
