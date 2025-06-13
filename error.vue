@@ -7,13 +7,11 @@
     <div class="text-center">
       Something went wrong.
       Please
-      <ULink
+      <ExternalLink
         @click="clearError()"
-        to="https://github.com/mandryllo/100kb/issues"
-        external
-        target="_blank">
+        to="https://github.com/mandryllo/100kb/issues">
         open an issue.
-      </ULink>
+      </ExternalLink>
     </div>
   </NuxtLayout>
 </template>

@@ -8,18 +8,15 @@
           is an opinionated blog aggregator.</li>
         <li>
           Inspired by
-          <ULink to="https://100kb.danhill.is/" external target="_blank">
+          <ExternalLink to="https://100kb.danhill.is/">
             100kb.danhill.is.
-          </ULink>
+          </ExternalLink>
         </li>
         <li>
           To add/remove blog (or anything else) please open an issue on
-          <ULink
-            to="https://github.com/mandryllo/100kb/issues"
-            external
-            target="_blank">
+          <ExternalLink to="https://github.com/mandryllo/100kb/issues">
             GitHub.
-          </ULink>
+          </ExternalLink>
         </li>
       </ol>
     </div>

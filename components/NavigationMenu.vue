@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui';
+import type { NavigationMenuItem, NavigationMenuProps } from '@nuxt/ui';
 
 defineProps<{
-  orientation?: 'vertical' | 'horizontal';
+  orientation?: NavigationMenuProps['orientation'];
 }>();
 
 const items = ref<NavigationMenuItem[]>([{

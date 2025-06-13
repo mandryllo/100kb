@@ -14,7 +14,7 @@ function onReadMoreClick() {
 }
 
 function savePost() {
-  userStore.storeUserFavorite(props.post.link);
+  userStore.storeUserFavorite(props.post.id);
   emit('updated', 'favorite');
 }
 
@@ -28,7 +28,7 @@ function bookmarkBlog() {
 }
 
 const isPostSaved = computed(() => {
-  return !!userStore.userFavorites[props.post.link];
+  return !!userStore.userFavorites[props.post.id];
 });
 
 const isBlogBookmarked = computed(() => {
@@ -40,7 +40,7 @@ const isBlogVisited = computed(() => {
 });
 
 const isPostVisited = computed(() => {
-  return userStore.userActivity[props.post.link] > 2;
+  return userStore.userActivity[props.post.id] > 2;
 });
 </script>
 
@@ -49,29 +49,24 @@ const isPostVisited = computed(() => {
     <template #header>
       <h3 class="flex justify-between items-center">
         {{ post.title }}
-        <UTooltip
+        <IconBtn
           v-if="!userStore.disabled"
-          :text="!isPostSaved ? 'Favorite post' : 'Unfavorite post'">
-          <UButton
-            @click="savePost"
-            :icon="!isPostSaved ? 'material-symbols:favorite-outline' : 'material-symbols:favorite'"
-            :color="!isPostSaved ? 'neutral' : 'tertiary'"
-            variant="subtle"
-            size="xs"
-            class="cursor-pointer" />
-        </UTooltip>
+          @click="savePost"
+          :text="!isPostSaved ? 'Favorite post' : 'Unfavorite post'"
+          :icon="
+            !isPostSaved
+              ? 'material-symbols:favorite-outline'
+              : 'material-symbols:favorite'"
+          :color="!isPostSaved ? 'neutral' : 'tertiary'" />
       </h3>
     </template>
     <div v-if="post.description" class="mb-4">{{ post.description }}</div>
-    <UButton
+    <AppButton
       @click="onReadMoreClick"
       :to="post.link"
       target="_blank"
-      trailing-icon="mdi:open-in-new"
-      color="neutral"
-      variant="subtle">
-      Read More
-    </UButton>
+      label="Read More"
+      trailing-icon="mdi:open-in-new" />
     <div v-if="userStore.userActivity[post.link]" class="font-semibold text-sm mt-2">
       You already visited this post {{ isPostVisited ? 'multiple times!' : '!' }}
     </div>
@@ -79,47 +74,29 @@ const isPostVisited = computed(() => {
       <h4 class="flex justify-between">
         <span class="font-semibold flex items-center">
           {{ post.feedTitle }}
-          <template v-if="isBlogBookmarked">
-            <UBadge
-              color="tertiary"
-              variant="subtle"
-              size="sm"
-              class="ml-2">
-              Bookmarked blog
-            </UBadge>
-          </template>
-          <template v-if="isBlogVisited">
-            <UBadge
-              color="tertiary"
-              variant="subtle"
-              size="sm"
-              class="ml-2">
-              Frequently visited blog
-            </UBadge>
-          </template>
+          <AppBadge
+            v-if="isBlogBookmarked"
+            label="Bookmarked blog"
+            class="ml-2" />
+          <AppBadge
+            v-if="isBlogVisited"
+            label="Frequently visited blog"
+            class="ml-2" />
         </span>
         <div class="flex">
-          <UTooltip text="Read blog">
-            <UButton
-              @click="onReadBlogClick"
-              :to="post.feedLink"
-              target="_blank"
-              icon="mdi:open-in-new"
-              color="neutral"
-              variant="subtle"
-              size="xs" />
-          </UTooltip>
-          <UTooltip
+          <IconBtn
             v-if="!userStore.disabled"
-            :text="!isBlogBookmarked ? 'Bookmark blog' : 'Unbookmark blog'">
-            <UButton
-              @click="bookmarkBlog"
-              icon="material-symbols:bookmark-heart-outline"
-              color="neutral"
-              variant="subtle"
-              size="xs"
-              class="cursor-pointer ml-2" />
-          </UTooltip>
+            @click="onReadBlogClick"
+            :to="post.feedLink"
+            target="_blank"
+            text="Read blog"
+            icon="mdi:open-in-new" />
+          <IconBtn
+            v-if="!userStore.disabled"
+            @click="bookmarkBlog"
+            :text="!isBlogBookmarked ? 'Bookmark blog' : 'Unbookmark blog'"
+            icon="material-symbols:bookmark-heart-outline"
+            class="ml-2" />
         </div>
       </h4>
       <div v-if="post.feedDescription" class="text-xs">

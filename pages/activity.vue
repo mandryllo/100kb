@@ -27,36 +27,21 @@ function onDisableConfirm() {
           :close="{ class: 'cursor-pointer' }"
           title="Are you sure?"
           description="This action will erase your complete activity history!">
-          <UButton color="neutral" variant="subtle" class="cursor-pointer">
-            Disable User Activity
-          </UButton>
+          <AppButton label="Disable User Activity" class="cursor-pointer" />
           <template #body>
             <div>
-              <UButton
-                @click="onDisableConfirm"
-                color="neutral"
-                variant="subtle"
-                class="cursor-pointer">
-                Yes
-              </UButton>
+              <AppButton @click="onDisableConfirm" label="Yes" />
             </div>
           </template>
         </UModal>
-        <UButton
-          v-else
-          @click="userStore.enable"
-          color="neutral"
-          variant="subtle"
-          class="cursor-pointer">
-          Enable User Activity
-        </UButton>
+        <AppButton v-else @click="userStore.enable" label="Enable User Activity" />
       </div>
       <ul class="list-disc mx-4">
         <li v-for="it in userStore.orderedLinkVisits" :key="it.link">
           Visited
-          <ULink :to="it.link || it.blog" external target="_blank">
+          <ExternalLink :to="it.link || it.blog">
             {{ it.link || it.blog }}
-          </ULink>
+          </ExternalLink>
           on {{ it.timestamp }}
         </li>
       </ul>

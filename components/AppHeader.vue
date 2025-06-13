@@ -14,20 +14,20 @@ const { toggleIsOpened, isOpened } = useNavMenu();
       <NavigationMenu class="hidden sm:flex" />
       <div>
         <ThemeToggle />
-        <UButton
+        <IconBtn
           to="https://github.com/mandryllo/100kb"
           target="_blank"
           icon="mdi:github"
-          size="sm"
-          color="neutral"
-          variant="ghost" />
-        <UButton
+          text="Open on Github"
+          variant="ghost"
+          size="sm" />
+        <IconBtn
           @click="toggleIsOpened"
           :icon="isOpened ? 'mdi:close' : 'mdi:menu'"
-          size="sm"
-          color="neutral"
+          :text="isOpened ? 'Close Navigation Menu' : 'Open Navigation Menu'"
           variant="ghost"
-          class="inline-flex sm:hidden cursor-pointer" />
+          size="sm"
+          class="inline-flex sm:hidden" />
       </div>
     </div>
   </header>

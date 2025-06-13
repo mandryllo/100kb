@@ -12,11 +12,10 @@ const isDark = computed({
 </script>
 
 <template>
-  <UButton
+  <IconBtn
     @click="isDark = !isDark"
     :icon="isDark ? 'lucide:sun' : 'lucide:moon'"
-    size="sm"
-    color="neutral"
+    text="Toggle Theme"
     variant="ghost"
-    class="cursor-pointer" />
+    size="sm" />
 </template>
