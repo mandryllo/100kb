@@ -1,30 +1,49 @@
-import type { LinkVisit, UserActivity, UserBookmarks } from '#shared/types';
+import type {
+  UserActivity,
+  UserBookmarks,
+  UserFavorites,
+  UserStats
+} from '#shared/types';
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
     disabled: false,
-    linkVisits: [] as LinkVisit[],
-    userActivity: {} as UserActivity,
-    userBookmarks: {} as UserBookmarks,
-    userFavorites: {} as UserBookmarks
+    activity: [] as UserActivity[],
+    stats: {} as UserStats,
+    bookmarks: {} as UserBookmarks,
+    favorites: {} as UserFavorites
   }),
   actions: {
-    storeLinkVisit({ link, blog }: Omit<LinkVisit, 'timestamp'>) {
-      this.linkVisits.push({
-        link,
-        blog,
+    readPost(id: string) {
+      this.storeActivity({ id, type: 'READ' });
+      this.storeStats(id);
+    },
+    visitBlog(id: string) {
+      this.storeActivity({ id, type: 'VISIT' });
+      this.storeStats(id);
+    },
+    toggleFavorite(id: string) {
+      const isFavorited = !this.favorites[id];
+      const type = isFavorited ? 'FAVORITE' : 'UNFAVORITE';
+      this.storeActivity({ id, type });
+      this.favorites[id] = isFavorited;
+    },
+    toggleBookmark(id: string) {
+      const isBookmarked = !this.bookmarks[id];
+      const type = isBookmarked ? 'BOOKMARK' : 'UNBOOKMARK';
+      this.storeActivity({ id, type });
+      this.bookmarks[id] = isBookmarked;
+    },
+    storeActivity({ id, type }: Omit<UserActivity, 'timestamp'>) {
+      this.activity.push({
+        id,
+        type,
         timestamp: (new Date()).toISOString()
       });
-      if (link && !this.userActivity[link]) this.userActivity[link] = 0;
-      if (!this.userActivity[blog]) this.userActivity[blog] = 0;
-      if (link) this.userActivity[link]++;
-      this.userActivity[blog]++;
     },
-    storeUserBookmark(bookmark: string) {
-      this.userBookmarks[bookmark] = !this.userBookmarks[bookmark];
-    },
-    storeUserFavorite(bookmark: string) {
-      this.userFavorites[bookmark] = !this.userFavorites[bookmark];
+    storeStats(id: string) {
+      if (!this.stats[id]) this.stats[id] = 0;
+      this.stats[id]++;
     },
     enable() {
       this.disabled = false;
@@ -34,15 +53,10 @@ export const useUserStore = defineStore('userStore', {
       this.reset();
     },
     reset() {
-      this.linkVisits = [];
-      this.userActivity = {};
-      this.userBookmarks = {};
-      this.userFavorites = {};
-    }
-  },
-  getters: {
-    orderedLinkVisits(state) {
-      return _orderBy(state.linkVisits, 'timestamp', ['desc']);
+      this.activity = [];
+      this.stats = {};
+      this.bookmarks = {};
+      this.favorites = {};
     }
   },
   persist: {

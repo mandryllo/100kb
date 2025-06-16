@@ -1,20 +1,20 @@
 import filter from 'lodash/filter';
 import orderBy from 'lodash/orderBy';
-import type { MyFeedEntry, PaginationQuery } from '#shared/types';
+import type { Post, FeedQueryParams } from '#shared/types';
 
 const ITEMS_PER_PAGE = 10;
 
 export default defineEventHandler(async (event) => {
-  const query: PaginationQuery = getQuery(event);
-  let feed = await useStorage().getItem('feed:list') as MyFeedEntry[];
+  const query: FeedQueryParams = getQuery(event);
+  let feed = await useStorage().getItem('feed') as Post[];
   if (!feed) return [];
 
-  const { page, ids = [], feedIds = [], filterIds, filterFeedIds } = query;
-  if (filterFeedIds === 'true') {
-    feed = filter(feed, (it: MyFeedEntry) => feedIds.includes(it.feedLink));
+  const { page, ids = [], blogIds = [], filterIds, filterBlogIds } = query;
+  if (filterBlogIds === 'true') {
+    feed = filter(feed, (it: Post) => blogIds.includes(it.blogId));
   }
   if (filterIds === 'true') {
-    feed = filter(feed, (it: MyFeedEntry) => ids.includes(it.id));
+    feed = filter(feed, (it: Post) => ids.includes(it.id));
   }
   feed = orderBy(feed, 'published', ['desc']);
   const firstIndex = (page - 1) * ITEMS_PER_PAGE;

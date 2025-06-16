@@ -1,24 +1,7 @@
 import { extract } from '@extractus/feed-extractor';
 import sanitizeHtml from 'sanitize-html';
+import type { Post } from '#shared/types';
 import BLOGS from '#shared/blogs';
-import type { MyFeedEntry } from '#shared/types';
-
-const processDescription = (description: string | undefined) => {
-  if (description === 'undefined') return;
-  return description;
-};
-
-const addEllipsis = (text: string | undefined) => {
-  if (!text) return;
-  if (['?', '!', '.'].some(mark => text.endsWith(mark))) return text;
-  return `${text}...`;
-};
-
-const processLink = (link: string) => {
-  const url = new URL(link);
-  if (['atom', 'xml'].some(it => url.pathname.endsWith(it))) return url.origin;
-  return link;
-};
 
 export default defineTask({
   meta: {
@@ -28,29 +11,29 @@ export default defineTask({
   async run() {
     const feed = await Promise.allSettled(BLOGS.map(blog => extract(blog)))
       .then((results) => {
-        return results.reduce((acc: MyFeedEntry[], result) => {
+        return results.reduce((acc: Post[], result) => {
           if (result.status === 'fulfilled') {
-            const { link, title, published, description, entries } = result.value;
+            const { link, title, description, entries } = result.value;
             if (!link || !title || !entries) return acc;
-            const feedData = {
-              feedLink: processLink(link),
-              feedTitle: title,
-              feedDescription: sanitizeHtml(processDescription(description) || ''),
-              feedPublished: published
+            const blog = {
+              blogId: link,
+              blogLink: processLink(link),
+              blogTitle: title,
+              blogDescription: sanitizeHtml(processDescription(description) || '')
             };
             entries.forEach((entry) => {
               const { id, link, title, description, published } = entry;
               if (!id || !link || !title || !published) return acc;
               const date = published.split('T')[0];
               if (date.split('-')[0] !== '2025') return acc;
-              const data: MyFeedEntry = {
+              const data: Post = {
                 id,
                 link,
                 title,
                 description: addEllipsis(description),
                 published,
                 date,
-                ...feedData
+                ...blog
               };
               acc.push(data);
             });
@@ -61,7 +44,7 @@ export default defineTask({
           return acc;
         }, []);
       });
-    await useStorage().setItem('feed:list', feed);
+    await useStorage().setItem('feed', feed);
     return { result: 'success' };
   }
 });

@@ -9,7 +9,21 @@
         <li>
           Inspired by
           <ExternalLink to="https://100kb.danhill.is/">
-            100kb.danhill.is.
+            100kb.danhill.is
+          </ExternalLink> and
+          <ExternalLink to="https://indieblog.page/">
+            indieblog.page.
+          </ExternalLink>
+        </li>
+        <li>
+          Learn more how we use and store your activity on the
+          <ULink to="/activity">activity</ULink>
+          page.
+        </li>
+        <li>
+          You can find list of blogs
+          <ExternalLink to="https://raw.githubusercontent.com/mandryllo/100kb/refs/heads/main/shared/blogs.ts">
+            here.
           </ExternalLink>
         </li>
         <li>

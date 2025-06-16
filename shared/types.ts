@@ -6,49 +6,55 @@ type PrefixKeys<T, P extends string> = {
 
 type RequiredAllBut<T, K extends keyof T> = Required<Omit<T, K>> & Pick<T, K>;
 
-type PickedFeedData = Pick<FeedData, 'link' | 'title' | 'description' | 'published'>;
+type PickedFeedData = Pick<FeedData, 'link' | 'title' | 'description'>;
+type Blog = RequiredAllBut<PickedFeedData, 'description'> & { id: string };
 
-type CustomFeedData = PrefixKeys<RequiredAllBut<PickedFeedData, 'description' | 'published'>, 'feed'>;
+type PrefixedBlogData = PrefixKeys<Blog, 'blog'>;
+type Post = RequiredAllBut<FeedEntry, 'description'> & PrefixedBlogData & { date: string };
 
-type MyFeedEntry = RequiredAllBut<FeedEntry, 'description'> & CustomFeedData & { date: string };
-
-type MyFeedData = {
-  [K: string]: MyFeedEntry[];
+type FeedQueryParams = {
+  page: number;
+  filterIds?: string;
+  ids?: string[];
+  filterBlogIds?: string;
+  blogIds?: string[];
 };
 
-type LinkVisit = {
-  link?: string;
-  blog: string;
-  timestamp: string;
+type FeedResults = {
+  items: Post[];
+  total: number;
+};
+
+type Feed = {
+  [K: string]: Post[];
 };
 
 type UserActivity = {
+  id: string;
+  timestamp: string;
+  type: 'READ' | 'VISIT' | 'FAVORITE' | 'UNFAVORITE' | 'BOOKMARK' | 'UNBOOKMARK';
+};
+
+type UserStats = {
   [K: string]: number;
+};
+
+type UserFavorites = {
+  [K: string]: boolean;
 };
 
 type UserBookmarks = {
   [K: string]: boolean;
 };
 
-type PaginationQuery = {
-  page: number;
-  filterIds?: string;
-  ids?: string[];
-  filterFeedIds?: string;
-  feedIds?: string[];
-};
-
-type FeedListResults = {
-  items: MyFeedEntry[];
-  total: number;
-};
-
 export type {
-  PaginationQuery,
-  FeedListResults,
-  MyFeedData,
-  MyFeedEntry,
+  Blog,
+  Post,
+  FeedQueryParams,
+  FeedResults,
+  Feed,
   UserActivity,
-  LinkVisit,
+  UserStats,
+  UserFavorites,
   UserBookmarks
 };

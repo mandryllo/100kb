@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { MyFeedEntry } from '#shared/types';
+import type { Post } from '#shared/types';
 
 const props = defineProps<{
-  post: MyFeedEntry;
+  post: Post;
 }>();
 
 const emit = defineEmits(['updated']);
@@ -10,54 +10,55 @@ const emit = defineEmits(['updated']);
 const userStore = useUserStore();
 
 function onReadMoreClick() {
-  userStore.storeLinkVisit({ link: props.post.link, blog: props.post.feedLink });
+  userStore.readPost(props.post.id);
+  userStore.visitBlog(props.post.blogId);
 }
 
-function savePost() {
-  userStore.storeUserFavorite(props.post.id);
+function visitBlog() {
+  userStore.visitBlog(props.post.blogId);
+}
+
+function toggleFavorite() {
+  userStore.toggleFavorite(props.post.id);
   emit('updated', 'favorite');
 }
 
-function onReadBlogClick() {
-  userStore.storeLinkVisit({ blog: props.post.feedLink });
-}
-
-function bookmarkBlog() {
-  userStore.storeUserBookmark(props.post.feedLink);
+function toggleBookmark() {
+  userStore.toggleBookmark(props.post.blogId);
   emit('updated', 'bookmark');
 }
 
-const isPostSaved = computed(() => {
-  return !!userStore.userFavorites[props.post.id];
+const isPostFavorited = computed(() => {
+  return !!userStore.favorites[props.post.id];
 });
 
 const isBlogBookmarked = computed(() => {
-  return !!userStore.userBookmarks[props.post.feedLink];
+  return !!userStore.bookmarks[props.post.blogId];
 });
 
 const isBlogVisited = computed(() => {
-  return userStore.userActivity[props.post.feedLink] > 2;
+  return userStore.stats[props.post.blogId] > 10;
 });
 
-const isPostVisited = computed(() => {
-  return userStore.userActivity[props.post.id] > 2;
+const isPostRead = computed(() => {
+  return userStore.stats[props.post.id] > 2;
 });
 </script>
 
 <template>
-  <UCard :variant="isPostSaved ? 'subtle' : 'outline'" class="mb-4">
+  <UCard :variant="isPostFavorited ? 'subtle' : 'outline'" class="mb-4">
     <template #header>
       <h3 class="flex justify-between items-center">
         {{ post.title }}
         <IconBtn
           v-if="!userStore.disabled"
-          @click="savePost"
-          :text="!isPostSaved ? 'Favorite post' : 'Unfavorite post'"
+          @click="toggleFavorite"
+          :text="!isPostFavorited ? 'Favorite post' : 'Unfavorite post'"
           :icon="
-            !isPostSaved
+            !isPostFavorited
               ? 'material-symbols:favorite-outline'
               : 'material-symbols:favorite'"
-          :color="!isPostSaved ? 'neutral' : 'tertiary'" />
+          :color="!isPostFavorited ? 'neutral' : 'tertiary'" />
       </h3>
     </template>
     <div v-if="post.description" class="mb-4">{{ post.description }}</div>
@@ -67,13 +68,13 @@ const isPostVisited = computed(() => {
       target="_blank"
       label="Read More"
       trailing-icon="mdi:open-in-new" />
-    <div v-if="userStore.userActivity[post.link]" class="font-semibold text-sm mt-2">
-      You already visited this post {{ isPostVisited ? 'multiple times!' : '!' }}
+    <div v-if="userStore.stats[post.id]" class="font-semibold text-sm mt-2">
+      You already read this post {{ isPostRead ? 'multiple times!' : '!' }}
     </div>
     <template #footer>
       <h4 class="flex justify-between">
         <span class="font-semibold flex items-center">
-          {{ post.feedTitle }}
+          {{ post.blogTitle }}
           <AppBadge
             v-if="isBlogBookmarked"
             label="Bookmarked blog"
@@ -86,21 +87,21 @@ const isPostVisited = computed(() => {
         <div class="flex">
           <IconBtn
             v-if="!userStore.disabled"
-            @click="onReadBlogClick"
-            :to="post.feedLink"
+            @click="visitBlog"
+            :to="post.blogId"
             target="_blank"
-            text="Read blog"
+            text="Visit blog"
             icon="mdi:open-in-new" />
           <IconBtn
             v-if="!userStore.disabled"
-            @click="bookmarkBlog"
+            @click="toggleBookmark"
             :text="!isBlogBookmarked ? 'Bookmark blog' : 'Unbookmark blog'"
             icon="material-symbols:bookmark-heart-outline"
             class="ml-2" />
         </div>
       </h4>
-      <div v-if="post.feedDescription" class="text-xs">
-        {{ post.feedDescription }}
+      <div v-if="post.blogDescription" class="text-xs">
+        {{ post.blogDescription }}
       </div>
     </template>
   </UCard>

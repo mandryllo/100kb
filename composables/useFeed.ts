@@ -1,13 +1,13 @@
 import type {
-  MyFeedData,
-  MyFeedEntry,
-  FeedListResults,
-  PaginationQuery
+  Feed,
+  Post,
+  FeedResults,
+  FeedQueryParams
 } from '#shared/types';
 
 export function useFeed() {
   const page = ref(1);
-  const feed = ref<MyFeedEntry[]>([]);
+  const feed = ref<Post[]>([]);
   const total = ref(0);
   const filterBookmarks = ref(false);
   const filterFavorites = ref(false);
@@ -15,18 +15,18 @@ export function useFeed() {
   const userStore = useUserStore();
 
   async function fetch() {
-    const query: PaginationQuery = {
+    const query: FeedQueryParams = {
       page: page.value,
-      filterFeedIds: filterBookmarks.value.toString(),
+      filterBlogIds: filterBookmarks.value.toString(),
       filterIds: filterFavorites.value.toString()
     };
     if (filterBookmarks.value) {
-      query.feedIds = _filter(Object.keys(userStore.userBookmarks), it => userStore.userBookmarks[it]);
+      query.blogIds = _filter(Object.keys(userStore.bookmarks), it => userStore.bookmarks[it]);
     }
     if (filterFavorites.value) {
-      query.ids = _filter(Object.keys(userStore.userFavorites), it => userStore.userFavorites[it]);
+      query.ids = _filter(Object.keys(userStore.favorites), it => userStore.favorites[it]);
     }
-    const data = await $fetch<FeedListResults>('/api/feed', { query });
+    const data = await $fetch<FeedResults>('/api/feed', { query });
     if (!data) return;
     feed.value = data.items;
     total.value = data.total;
@@ -52,7 +52,7 @@ export function useFeed() {
     if (type === 'favorite' && filterFavorites.value) updatePage(1);
   }
 
-  const groupedFeed = computed<MyFeedData>(() => {
+  const groupedFeed = computed<Feed>(() => {
     return _groupBy(feed.value, 'date');
   });
 
