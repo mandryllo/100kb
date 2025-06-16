@@ -20,16 +20,14 @@ const {
     <div
       v-if="!userStore.disabled"
       class="flex flex-col md:flex-row justify-center mb-8">
-      <USwitch
+      <AppSwitch
         @update:model-value="setFilterBookmarks"
         :model-value="filterBookmarks"
-        color="neutral"
         label="Filter Bookmarked Blogs"
         class="mb-4 md:mb-0 mr-0 md:mr-8" />
-      <USwitch
+      <AppSwitch
         @update:model-value="setFilterFavorites"
         :model-value="filterFavorites"
-        color="neutral"
         label="Filter Favorite Posts" />
     </div>
     <div v-for="(entries, key) in groupedFeed" :key="key">
