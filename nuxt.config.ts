@@ -8,7 +8,9 @@ export default defineNuxtConfig({
     'pinia-plugin-persistedstate/nuxt',
     'nuxt-lodash',
     'nuxt-security',
-    '@nuxtjs/seo'
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap',
+    'nuxt-seo-utils'
   ],
   components: [{
     path: '~/components',
