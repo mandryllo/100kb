@@ -12,15 +12,15 @@ function onDisableConfirm() {
 <template>
   <div>
     <h1 class="text-center">Activity</h1>
-    <div class="flex flex-col items-center">
-      <div class="self-start mb-4 text-justify">
+    <div class="flex flex-col">
+      <div class="mb-4 text-justify">
         <ULink to="/">100kb.space</ULink> stores all your acitivity, including
         reading individual posts, visiting blogs, favoriting posts and bookmarking
         blogs in your browser's local storage. This information is never stored
         on the server. Of course, you can disable this feature, but beware, doing
         that will erase your currently saved activity.
       </div>
-      <div class="self-start">
+      <div>
         <UModal
           v-if="!userStore.disabled"
           v-model:open="open"

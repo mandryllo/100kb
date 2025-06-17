@@ -14,29 +14,30 @@ export const useUserStore = defineStore('userStore', {
     favorites: {} as UserFavorites
   }),
   actions: {
-    readPost(id: string) {
-      this.storeActivity({ id, type: 'READ' });
+    readPost(id: string, link: string) {
+      this.storeActivity({ id, link, type: 'READ' });
       this.storeStats(id);
     },
-    visitBlog(id: string) {
-      this.storeActivity({ id, type: 'VISIT' });
+    visitBlog(id: string, link: string) {
+      this.storeActivity({ id, link, type: 'VISIT' });
       this.storeStats(id);
     },
-    toggleFavorite(id: string) {
+    toggleFavorite(id: string, link: string) {
       const isFavorited = !this.favorites[id];
       const type = isFavorited ? 'FAVORITE' : 'UNFAVORITE';
-      this.storeActivity({ id, type });
+      this.storeActivity({ id, link, type });
       this.favorites[id] = isFavorited;
     },
-    toggleBookmark(id: string) {
+    toggleBookmark(id: string, link: string) {
       const isBookmarked = !this.bookmarks[id];
       const type = isBookmarked ? 'BOOKMARK' : 'UNBOOKMARK';
-      this.storeActivity({ id, type });
+      this.storeActivity({ id, link, type });
       this.bookmarks[id] = isBookmarked;
     },
-    storeActivity({ id, type }: Omit<UserActivity, 'timestamp'>) {
+    storeActivity({ id, link, type }: Omit<UserActivity, 'timestamp'>) {
       this.activity.push({
         id,
+        link,
         type,
         timestamp: (new Date()).toISOString()
       });
@@ -57,6 +58,11 @@ export const useUserStore = defineStore('userStore', {
       this.stats = {};
       this.bookmarks = {};
       this.favorites = {};
+    }
+  },
+  getters: {
+    orderedActivity(state) {
+      return _orderBy(state.activity, 'timestamp', ['desc']);
     }
   },
   persist: {

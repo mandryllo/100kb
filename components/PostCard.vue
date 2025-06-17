@@ -10,21 +10,23 @@ const emit = defineEmits(['updated']);
 const userStore = useUserStore();
 
 function onReadMoreClick() {
-  userStore.readPost(props.post.id);
-  userStore.visitBlog(props.post.blogId);
+  if (userStore.disabled) return;
+  userStore.readPost(props.post.id, props.post.link);
+  userStore.visitBlog(props.post.blogId, props.post.blogLink);
 }
 
 function visitBlog() {
-  userStore.visitBlog(props.post.blogId);
+  if (userStore.disabled) return;
+  userStore.visitBlog(props.post.blogId, props.post.blogLink);
 }
 
 function toggleFavorite() {
-  userStore.toggleFavorite(props.post.id);
+  userStore.toggleFavorite(props.post.id, props.post.link);
   emit('updated', 'favorite');
 }
 
 function toggleBookmark() {
-  userStore.toggleBookmark(props.post.blogId);
+  userStore.toggleBookmark(props.post.blogId, props.post.blogLink);
   emit('updated', 'bookmark');
 }
 
@@ -86,7 +88,6 @@ const isPostRead = computed(() => {
         </span>
         <div class="flex">
           <IconBtn
-            v-if="!userStore.disabled"
             @click="visitBlog"
             :to="post.blogId"
             target="_blank"

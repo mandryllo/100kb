@@ -31,6 +31,7 @@ type Feed = {
 
 type UserActivity = {
   id: string;
+  link: string;
   timestamp: string;
   type: 'READ' | 'VISIT' | 'FAVORITE' | 'UNFAVORITE' | 'BOOKMARK' | 'UNBOOKMARK';
 };
