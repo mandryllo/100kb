@@ -6,7 +6,7 @@ const ITEMS_PER_PAGE = 10;
 
 export default defineEventHandler(async (event) => {
   const query: FeedQueryParams = getQuery(event);
-  let feed = await useStorage().getItem('feed') as Post[];
+  let feed = await useStorage('feed').getItem('posts') as Post[];
   if (!feed) return [];
 
   const { page, ids = [], blogIds = [], filterIds, filterBlogIds } = query;

@@ -23,9 +23,9 @@ export default defineTask({
             };
             entries.forEach((entry) => {
               const { id, link, title, description, published } = entry;
-              if (!id || !link || !title || !published) return acc;
+              if (!id || !link || !title || !published) return;
               const date = published.split('T')[0];
-              if (date.split('-')[0] !== '2025') return acc;
+              if (date.split('-')[0] !== '2025') return;
               const data: Post = {
                 id,
                 link,
@@ -44,7 +44,7 @@ export default defineTask({
           return acc;
         }, []);
       });
-    await useStorage().setItem('feed', feed);
+    await useStorage('feed').setItem('posts', feed);
     return { result: 'success' };
   }
 });
