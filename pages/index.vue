@@ -5,6 +5,7 @@ const {
   onPostUpdate,
   page,
   total,
+  isLoading,
   filterBookmarks,
   filterFavorites,
   updatePage,
@@ -30,20 +31,26 @@ const {
         :model-value="filterFavorites"
         label="Filter Favorite Posts" />
     </div>
-    <div v-for="(entries, key) in groupedFeed" :key="key">
-      <h2>{{ key }}</h2>
-      <PostCard
-        v-for="entry in entries"
-        :key="entry.id"
-        @updated="onPostUpdate"
-        :post="entry" />
+    <UIcon
+      v-if="isLoading"
+      name="svg-spinners:6-dots-rotate"
+      class="size-12 text-center w-full mt-16" />
+    <div v-else>
+      <div v-for="(entries, key) in groupedFeed" :key="key">
+        <h2>{{ key }}</h2>
+        <PostCard
+          v-for="entry in entries"
+          :key="entry.id"
+          @updated="onPostUpdate"
+          :post="entry" />
+      </div>
+      <UPagination
+        v-if="total"
+        @update:page="updatePage"
+        :page="page"
+        :total="total"
+        active-color="neutral"
+        class="flex justify-center" />
     </div>
-    <UPagination
-      v-if="total"
-      @update:page="updatePage"
-      :page="page"
-      :total="total"
-      active-color="neutral"
-      class="flex justify-center" />
   </div>
 </template>

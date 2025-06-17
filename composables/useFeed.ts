@@ -11,6 +11,7 @@ export function useFeed() {
   const total = ref(0);
   const filterBookmarks = ref(false);
   const filterFavorites = ref(false);
+  const isLoading = ref(true);
 
   const userStore = useUserStore();
 
@@ -26,7 +27,9 @@ export function useFeed() {
     if (filterFavorites.value) {
       query.ids = _filter(Object.keys(userStore.favorites), it => userStore.favorites[it]);
     }
+    isLoading.value = true;
     const data = await $fetch<FeedResults>('/api/feed', { query });
+    isLoading.value = false;
     if (!data) return;
     feed.value = data.items;
     total.value = data.total;
@@ -61,11 +64,12 @@ export function useFeed() {
   });
 
   return {
-    page: page,
-    total: total,
-    filterBookmarks: filterBookmarks,
-    filterFavorites: filterFavorites,
-    groupedFeed: groupedFeed,
+    page,
+    total,
+    isLoading,
+    filterBookmarks,
+    filterFavorites,
+    groupedFeed,
     updatePage,
     setFilterBookmarks,
     setFilterFavorites,
