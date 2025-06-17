@@ -43,7 +43,7 @@ const isBlogVisited = computed(() => {
 });
 
 const isPostRead = computed(() => {
-  return userStore.stats[props.post.id] > 2;
+  return userStore.stats[props.post.id] > 1;
 });
 </script>
 
@@ -74,17 +74,19 @@ const isPostRead = computed(() => {
       You already read this post {{ isPostRead ? 'multiple times!' : '!' }}
     </div>
     <template #footer>
-      <h4 class="flex justify-between">
-        <span class="font-semibold flex items-center">
-          {{ post.blogTitle }}
-          <AppBadge
-            v-if="isBlogBookmarked"
-            label="Bookmarked blog"
-            class="ml-2" />
-          <AppBadge
-            v-if="isBlogVisited"
-            label="Frequently visited blog"
-            class="ml-2" />
+      <h4 class="flex justify-between items-center">
+        <span class="font-semibold flex flex-col md:flex-row md:items-center">
+          <span>{{ post.blogTitle }}</span>
+          <div class="flex my-2 md:my-0">
+            <AppBadge
+              v-if="isBlogVisited"
+              label="Frequently visited blog"
+              class="md:ml-2" />
+            <AppBadge
+              v-if="isBlogBookmarked"
+              label="Bookmarked blog"
+              class="ml-2" />
+          </div>
         </span>
         <div class="flex">
           <IconBtn
