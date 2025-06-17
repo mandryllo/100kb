@@ -5,7 +5,6 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "task:feed": "nitro task run feed",
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
@@ -39,7 +38,6 @@
     "@types/lodash": "^4.17.17",
     "@types/sanitize-html": "^2.16.0",
     "eslint": "^9.0.0",
-    "nitropack": "^2.11.12",
     "nuxt-lodash": "^2.5.3",
     "sass-embedded": "^1.88.0",
     "typescript": "^5.8.3"
