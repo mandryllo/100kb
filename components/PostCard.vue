@@ -76,16 +76,13 @@ const isPostRead = computed(() => {
     <template #footer>
       <h4 class="flex justify-between items-center">
         <span class="font-semibold flex flex-col md:flex-row md:items-center">
-          <span>{{ post.blogTitle }}</span>
+          <span class="mr-2">{{ post.blogTitle }}</span>
           <div class="flex my-2 md:my-0">
             <AppBadge
               v-if="isBlogVisited"
               label="Frequently visited blog"
-              class="md:ml-2" />
-            <AppBadge
-              v-if="isBlogBookmarked"
-              label="Bookmarked blog"
-              class="ml-2" />
+              class="mr-2" />
+            <AppBadge v-if="isBlogBookmarked" label="Bookmarked blog" />
           </div>
         </span>
         <div class="flex">
