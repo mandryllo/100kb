@@ -19,7 +19,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
     head: {
-      title: '100kb.space',
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/logo.svg' }
       ]
