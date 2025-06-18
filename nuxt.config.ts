@@ -32,12 +32,6 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2024-11-01',
   nitro: {
-    compatibilityDate: '2025-06-16',
-    storage: {
-      denoKV: {
-        driver: 'denoKV'
-      }
-    },
     experimental: {
       tasks: true
     },
