@@ -9,19 +9,20 @@ export default defineTask({
     description: 'Generate feed!'
   },
   async run() {
-    const feed = await Promise.allSettled(BLOGS.map(blog => extract(blog)))
+    const storage = useStorage('feed');
+    await Promise.allSettled(BLOGS.map(blog => extract(blog)))
       .then((results) => {
-        return results.reduce((acc: Post[], result) => {
+        return results.forEach((result) => {
           if (result.status === 'fulfilled') {
             const { link, title, description, entries } = result.value;
-            if (!link || !title || !entries) return acc;
+            if (!link || !title || !entries) return;
             const blog = {
               blogId: link,
               blogLink: processLink(link),
               blogTitle: title,
               blogDescription: sanitizeHtml(processDescription(description) || '')
             };
-            entries.forEach((entry) => {
+            entries.forEach(async (entry) => {
               const { id, link, title, description, published } = entry;
               if (!id || !link || !title || !published) return;
               const date = published.split('T')[0];
@@ -35,16 +36,14 @@ export default defineTask({
                 date,
                 ...blog
               };
-              acc.push(data);
+              await storage.setItem(data.id, data);
             });
           }
           else {
             console.error(result.reason);
           }
-          return acc;
-        }, []);
+        });
       });
-    await useStorage('feed').setItem('posts', feed);
     return { result: 'success' };
   }
 });

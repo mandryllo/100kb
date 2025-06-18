@@ -1,3 +1,3 @@
-export default defineNitroPlugin(() => {
-  runTask('feed');
+export default defineNitroPlugin(async () => {
+  await runTask('feed');
 });
