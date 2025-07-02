@@ -30,6 +30,9 @@ export default defineNuxtConfig({
       colors: ['tertiary']
     }
   },
+  runtimeConfig: {
+    cronSecret: process.env.CRON_SECRET
+  },
   compatibilityDate: '2024-11-01',
   nitro: {
     experimental: {
