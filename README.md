@@ -27,4 +27,4 @@ pnpm run dev
 
 ## Production
 
-WIP
+Deployed to [vercel](https://vercel.com/).
