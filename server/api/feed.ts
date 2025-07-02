@@ -1,6 +1,6 @@
-import filter from 'lodash/filter';
-import map from 'lodash/map';
-import orderBy from 'lodash/orderBy';
+import filter from 'lodash/filter.js';
+import map from 'lodash/map.js';
+import orderBy from 'lodash/orderBy.js';
 import type { Post, FeedQueryParams } from '#shared/types';
 
 const ITEMS_PER_PAGE = 10;
