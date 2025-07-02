@@ -7,6 +7,12 @@ and [indieblog.page](https://indieblog.page/)
 4. You can find list of blogs [here](shared/blogs.ts)
 5. To add/remove blog (or anything else) please open an issue on [GitHub](https://github.com/mandryllo/100kb/issues)
 
+## Future improvements
+
+1. Improve the blog list
+2. Add other sources like youtube channels, podcasts, newsletters, reddit, HN, etc.
+3. Introduce categories, persist data
+
 
 ## Local Development
 
