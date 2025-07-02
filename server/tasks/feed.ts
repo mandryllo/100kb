@@ -9,6 +9,7 @@ export default defineTask({
     description: 'Generate feed!'
   },
   async run() {
+    console.log('Generating feed!!!');
     const storage = useStorage('feed');
     await Promise.allSettled(BLOGS.map(blog => extract(blog)))
       .then((results) => {
