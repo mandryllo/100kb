@@ -35,8 +35,15 @@ export default defineNuxtConfig({
     experimental: {
       tasks: true
     },
-    scheduledTasks: {
-      '0 0 * * *': ['feed']
+    vercel: {
+      config: {
+        crons: [
+          {
+            path: '/api/vercel_cron/task',
+            schedule: '0 0 * * *'
+          }
+        ]
+      }
     }
   },
   eslint: {
