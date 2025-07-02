@@ -3,6 +3,6 @@ export default defineEventHandler(async (event) => {
   if (getHeader(event, 'authorization') !== `Bearer ${config.cronSecret}`) {
     throw createError({ statusCode: 401 });
   }
-  const { result } = await runTask('myTask');
+  const { result } = await runTask('feed');
   return { success: true, result };
 });
