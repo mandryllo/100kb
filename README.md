@@ -1,5 +1,7 @@
 # 100kb
 
+Codebase for [100kb.space](https://100kb.space/).
+
 1. 100kb.space is an opinionated blog aggregator
 2. Inspired by [100kb.danhill.is](https://100kb.danhill.is/)
 and [indieblog.page](https://indieblog.page/)
