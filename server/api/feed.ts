@@ -1,5 +1,4 @@
 import filter from 'lodash/filter.js';
-import map from 'lodash/map.js';
 import orderBy from 'lodash/orderBy.js';
 import type { Post, FeedQueryParams } from '#shared/types';
 
@@ -7,10 +6,7 @@ const ITEMS_PER_PAGE = 10;
 
 export default defineEventHandler(async (event) => {
   const query: FeedQueryParams = getQuery(event);
-  const storage = useStorage('feed');
-  const keys = await storage.getKeys();
-  const items = await storage.getItems(keys);
-  let feed = map(items, 'value') as Post[];
+  let feed = await useStorage('db').getItem('feed') as Post[];
   if (!feed) return [];
 
   const { page, ids = [], blogIds = [], filterIds, filterBlogIds } = query;
