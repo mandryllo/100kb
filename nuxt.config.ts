@@ -1,12 +1,11 @@
 /* globals defineNuxtConfig */
 
 const dbOptions = () => {
-  if (process.env.UPSTASH_REDIS_DISABLED) return { driver: 'memory' };
+  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return { driver: 'memory' };
   return {
-    driver: 'upstash',
-    url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL,
-    token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN
-  };
+    driver: 'upstash', url, token };
 };
 
 export default defineNuxtConfig({
