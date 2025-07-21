@@ -1,5 +1,14 @@
 /* globals defineNuxtConfig */
 
+const dbOptions = () => {
+  if (process.env.UPSTASH_REDIS_DISABLED) return { driver: 'memory' };
+  return {
+    driver: 'upstash',
+    url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL,
+    token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN
+  };
+};
+
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
@@ -39,11 +48,7 @@ export default defineNuxtConfig({
       tasks: true
     },
     storage: {
-      db: {
-        driver: 'upstash',
-        url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL,
-        token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN
-      }
+      db: dbOptions()
     },
     vercel: {
       config: {
