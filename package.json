@@ -5,6 +5,7 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "task:feed": "nitro task run feed",
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
@@ -19,6 +20,7 @@
     "@pinia/nuxt": "^0.11.0",
     "@upstash/redis": "^1.35.1",
     "lodash": "^4.17.21",
+    "nitropack": "^2.12.3",
     "nuxt": "^3.17.3",
     "nuxt-security": "2.2.0",
     "nuxt-seo-utils": "7.0.12",
