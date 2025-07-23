@@ -22,11 +22,19 @@ and [indieblog.page](https://indieblog.page/)
 ```bash
 pnpm install
 ```
-2. Start the development server on `http://localhost:3000`
+2. Copy `.env` file and set environment variables (if you want to use upstash as storage)
+```bash
+cp .env.example .env
+```
+3. Start the development server on `http://localhost:3000`
 ```bash
 pnpm run dev
+```
+4. Generate feed
+```bash
+pnpm run task:feed
 ```
 
 ## Production
 
-Deployed to [vercel](https://vercel.com/).
+Deployed to [vercel](https://vercel.com/) and uses [upstash](https://upstash.com/) as storage.
